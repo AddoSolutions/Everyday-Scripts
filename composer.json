@@ -1,0 +1,8 @@
+{
+    "require": {
+        "mattzuba/php-trello": "*"
+    },
+    "require-dev": {
+        "Frlnc/php-slack": "^1.0"
+    }
+}

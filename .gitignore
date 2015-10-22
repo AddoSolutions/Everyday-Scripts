@@ -1,0 +1,11 @@
+/.idea
+/vendor
+/config.php
+/standup-logs/*
+/trellotoken.txt
+/.hgtags
+/.hgignore
+/app.log
+/composer.lock
+/composer.phar
+*.iml
