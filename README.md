@@ -30,6 +30,7 @@ To get this part going (after doing the steps above):
  * This script scrubbs ALL of your boards for anything that is in `Doing` or in `Today` that you personally are assigned to
 * Yesterday:
  * Scrubbs each board activity for any card moved to either `Done` or `QA`
+* If configured proper,y there will be a folder called `standup-logs` created where all your standups are placed.
 
 
 This is kinda nice too for your `~/.bash_profile`: 
