@@ -1,5 +1,6 @@
 <?php
 
+chdir(__DIR__);
 header("Content-Type: text/json; charset=UTF-8");
 date_default_timezone_set('America/New_York');
 
@@ -30,7 +31,7 @@ $officeDays = array();
 ob_start();
 
 $response = $commander->execute('users.list', [
-    'channel' => $config['schedule']['slackChannel'],
+    'channel' => $config['schedule']['slackStandupChannel'],
 		'oldest' 	=> $startOfWeek
 ]);
 
@@ -44,7 +45,7 @@ foreach($response->getBody()['members'] as $user){
 
 
 $response = $commander->execute('channels.history', [
-    'channel' => $config['schedule']['slackChannel'],
+    'channel' => $config['schedule']['slackStandupChannel'],
 		'oldest' 	=> $startOfWeek
 ]);
 
@@ -152,7 +153,7 @@ $text = ob_get_flush();
 
 
 $response = $commander->execute('chat.postMessage', [
-    'channel' => $config['schedule']['slackChannel'],
+    'channel' => $config['schedule']['slackPostChannel'],
 		'username' => 'Daily Schedule',
 		'icon_emoji' => ':calendar2:',
 		'text'=>$text

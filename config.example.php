@@ -41,8 +41,14 @@ $config = array(
 		// ex:             xoxx-21xxxxxxxx-xxxxxxxxxx-xxxxxxxxxx-xxxxxx
 		'slackWebhookId'=>'',
 
+		// The ID of the slack channel where standups are posted
+		// ex:           C02SAA89B
+		// see: 		 https://api.slack.com/methods/channels.list/test
+		'slackStandupChannel'=>'',
+
 		// The ID of the slack channel to which you want to post
 		// ex:           C02SAA89B
-		'slackChannel'=>''
+		// see: 		 https://api.slack.com/methods/channels.list/test
+		'slackPostChannel'=>''
 	)
 );

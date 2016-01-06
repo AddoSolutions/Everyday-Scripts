@@ -1,5 +1,6 @@
 <?php
 
+chdir(__DIR__);
 header("Content-Type: text/json; charset=UTF-8");
 
 date_default_timezone_set('America/New_York');
@@ -97,7 +98,10 @@ class AppTrello{
 
 		$count = AppTrello::LINE_LENGTH-strlen($lineIndent);
 
-		return implode(str_split($line,$count),$lineIndent);
+		$splitlines = wordwrap($line,$count);
+
+		return str_replace("\n", $lineIndent, $splitlines);
+
 	}
 
 	function getBoardString($board){
@@ -133,8 +137,30 @@ class AppTrello{
 
 }
 
+function getQuote(){
+	global $config, $app;
+
+	$url = $config['standup']['quotes-url'];
+
+	if(!$url) return "";
+
+	$contents = preg_split('/\n(\n?\s)+/', file_get_contents($url));
+
+	srand(strtotime("today"));
+
+	$line = $contents[array_rand($contents,1)];
+
+	$line = " " . $app->filterLine($line, "\n ");
+
+	return $line;
+
+}
+
 
 $app = new AppTrello();
+
+//echo getQuote();die();
+
 $trello = $app->getTrello();
 
 $me = $trello->members->get("me");
@@ -259,6 +285,7 @@ $replace["today"] = $app->processCardlist($data["today"]);
 $replace["yesterday"] = $app->processCardlist($data["yesterday"]);
 
 $replace["todate"] = date('l');
+$replace["thought"] = getQuote();
 
 //print_r($replace);
 
