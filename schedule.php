@@ -4,8 +4,8 @@ chdir(__DIR__);
 header("Content-Type: text/json; charset=UTF-8");
 date_default_timezone_set('America/New_York');
 
-$pattern = '/(schedule|travel)(\r?\n)(---+|===+|___+)\n(.*\n){5,6}/i';
-$cleanup = '/[^a-zA-Z\d\s:\-\.,\(\)\@\/\\!]/i';
+$pattern = '/M(.*)\n[\W]*T(.*)\n[\W]*W(.*)\n[\W]*[TRH](.*)\n[\W]*F(.*)/i';
+$cleanup = '/[^a-zA-Z\d\s:\>\-\.,\(\)\@\/\\!]/i';
 $startOfWeek = strtotime("last sunday");
 $today = strtotime("today");
 
@@ -70,10 +70,11 @@ foreach($standups as $standup){
 	echo "*".$users[$standup['user']]['nice_name']."*:\n\n";
 
 
-	$lines = explode("\n", preg_replace($cleanup, " ", $standup['schedule']));
+	$lines = explode("\n", preg_replace($cleanup, " ", htmlspecialchars_decode($standup['schedule'])));
 
+	//print_r($lines);
 
-	unset($lines[0], $lines[1]);
+	//unset($lines[0], $lines[1]);
 
 	$days = array();
 
@@ -81,7 +82,7 @@ foreach($standups as $standup){
 		$line = trim($line, "-*O: \t\n\r\0\x0B");
 		if(strlen($line) < 2) continue;
 
-		list($day, $location) = preg_split('/(-|:)/', $line, 2, PREG_SPLIT_NO_EMPTY);
+		list($day, $location) = preg_split('/[-:>]/', $line, 2, PREG_SPLIT_NO_EMPTY);
 
 		$day = trim($day);
 		$originalDay = $day;

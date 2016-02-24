@@ -239,10 +239,13 @@ foreach($boards as $board){
 	$activityFeed = $trello->boards->get($board->id."/actions", array(
 		"cards"=>"open",
 		"entities"=>"true",
-		"limit"=>'300'
+		"limit"=>'300',
+		"filter"=>"updateCard:idList,commentCard,updateList:closed"
 	));
 	echo "...";
 
+
+	//print_r($activityFeed);die();
 
 	foreach($activityFeed as $activity){
 
@@ -254,8 +257,8 @@ foreach($boards as $board){
 		if(@!$activity->data->listAfter) $listName = false;
 		else $listName = $activity->data->listAfter->name;
 
-		//We only want completed cards
-		if(!$listName || (!preg_match("/Done/",$listName) && $listName!="QA")){
+		//We only want completed cards when they are in reference to them moving
+		if($activity->type == "updateCard" && (!$listName || (!preg_match("/Done/",$listName) && $listName!="QA"))){
 			//echo " - No List After: ".$listName."\n";
 			continue;
 		}
